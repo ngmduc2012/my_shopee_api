@@ -1,0 +1,9 @@
+.dart_tool/
+build/
+coverage/
+doc/api/
+pubspec.lock
+.env
+.env.*
+*.log
+!lib/src/models/*.g.dart

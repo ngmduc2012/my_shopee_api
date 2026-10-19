@@ -1,0 +1,10 @@
+version: 1
+name: shopee-affiliate
+slug: shopee-affiliate
+protocol: http
+port: 4908
+interceptRequests: true
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

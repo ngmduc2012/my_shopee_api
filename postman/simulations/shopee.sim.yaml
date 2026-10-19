@@ -1,0 +1,5 @@
+simulation: shopee-client-local
+routing: path
+mocks:
+  - routeKey: shopee
+    path: ../mocks/shopee-affiliate/config.yaml
