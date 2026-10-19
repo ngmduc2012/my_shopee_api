@@ -3,8 +3,12 @@
 Client Dart cho **Shopee Affiliate Open API**, dùng được trong Flutter hoặc Dart
 CLI/server. Đây là package cộng đồng, không phải SDK chính thức của Shopee.
 
-Phiên bản chuẩn bị: `0.1.0`. Chưa publish lên pub.dev và chưa kiểm API thật bằng
-credential được cấp quyền. Tài liệu API đối chiếu ngày 2026-10-18.
+Phiên bản **`0.1.0-beta.1`**: bản thử nghiệm cho cộng đồng. Đã kiểm chữ ký,
+parsing và HTTP với dữ liệu giả; **chưa kiểm API thật bằng credential được cấp
+quyền hoặc CORS trên browser**. Tài liệu API đối chiếu ngày 2026-10-18.
+
+[Mã nguồn và đóng góp](https://github.com/ngmduc2012/my_shopee_api) ·
+[Báo lỗi](https://github.com/ngmduc2012/my_shopee_api/issues).
 
 ## Phạm vi
 
@@ -34,19 +38,25 @@ CORS phía Shopee. Chưa xác nhận Shopee cho phép origin web của bạn g�
 Browser có thể chặn đọc redirect short link; khi đó nhập URL sản phẩm đầy đủ hoặc
 shop/item ID. Không tắt bảo mật trình duyệt và không dùng proxy công cộng để gửi khóa.
 
-## Cài local
+## Cài đặt
 
 Yêu cầu Dart >= 3.9. Đã kiểm bằng toolchain Flutter 3.41.2 / Dart 3.11 của repo.
-Package cố ý đứng riêng, không tham gia workspace chứa các core nội bộ.
+Package đứng riêng, không phụ thuộc Firebase, My Peace hoặc các core nội bộ.
+
+Chọn phiên bản beta rõ ràng:
+
+```sh
+dart pub add my_shopee_api:^0.1.0-beta.1
+# Flutter: flutter pub add my_shopee_api:^0.1.0-beta.1
+```
+
+Nếu phát triển trong monorepo, có thể dùng path từ app trong `apps/`:
 
 ```yaml
 dependencies:
   my_shopee_api:
     path: ../../packages/api_clients/my_shopee_api
 ```
-
-Đường dẫn trên áp dụng từ app trong `apps/`. Sau khi maintainer publish mới dùng
-dependency hosted `my_shopee_api: ^0.1.0`.
 
 ## Sử dụng
 
@@ -145,15 +155,37 @@ fvm dart pub publish --dry-run
 Ví dụ mặc định dùng dữ liệu giả và không gửi request ra internet. Hướng dẫn kiểm
 HTTP thật với server giả lập local: [postman/README.md](postman/README.md) (cần Postman CLI 1.70+).
 
-Trước publish: kiểm API thật bằng tài khoản có quyền, kiểm CORS nếu quảng bá direct
-web, chọn repository công khai và bổ sung URL đã tồn tại vào pubspec; rà nội dung
-archive bằng dry-run. Tên trên pub.dev chưa được giữ chỗ. Maintainer tự chạy
-`dart pub publish` sau khi hoàn tất; tác vụ hiện tại không upload/publish.
+Trước mỗi lần publish: tăng version và CHANGELOG, chạy các lệnh trên, rà nội dung
+archive từ dry-run và kiểm CI. Publish từ checkout sạch của repo công khai bằng
+`dart pub publish`; xác nhận đúng tài khoản Google quản lý package. Bản beta chưa
+thay thế kiểm live: trước khi chuyển sang `0.1.0`, cần xác nhận API thật bằng tài
+khoản có quyền; chỉ quảng bá direct web sau khi kiểm CORS.
 
 Kết quả local 2026-10-18: analyze sạch, 41 unit tests đạt (gồm chữ ký đúng ví dụ
 Shopee), ví dụ offline và 6 request qua Postman simulation đạt; compile JavaScript
 đạt; publish dry-run **0 cảnh báo**, archive có đủ 3 file `.g.dart`. API thật và
-CORS chưa kiểm. Đây là SDK riêng, chưa có Flutter app nào đang dùng để hot reload.
+CORS chưa kiểm. CI của repo công khai kiểm Dart 3.9 và 3.11; không cần Flutter để
+chạy các kiểm thử SDK.
+
+## Đồng bộ mã nguồn và đóng góp
+
+Nguồn phát triển hiện nằm tại `packages/api_clients/my_shopee_api` trong repo
+packages của maintainer. Repo GitHub chỉ chứa cây thư mục SDK và lịch sử của nó,
+được đồng bộ bằng Git subtree; không chứa app, Firebase hay credential.
+Cộng đồng có thể mở issue/PR trên GitHub. Maintainer đồng bộ PR về nguồn phát
+triển trước đợt phát hành tiếp theo để tránh hai bản khác nhau.
+
+Sau khi commit riêng các thay đổi SDK, chạy từ root repo `packages`:
+
+```sh
+git subtree split --prefix=api_clients/my_shopee_api -b export-my-shopee-api
+git push https://github.com/ngmduc2012/my_shopee_api.git export-my-shopee-api:main
+```
+
+Nếu GitHub có PR mới, hợp nhất trước bằng `git subtree pull
+--prefix=api_clients/my_shopee_api https://github.com/ngmduc2012/my_shopee_api.git main`.
+Không force-push để ghi đè đóng góp. Khi dùng repo packages làm submodule của app,
+phải cập nhật gitlink và SHA/ref CI cùng nhau; không sửa nhánh release app đã chốt.
 
 ## Nguồn chính thức
 

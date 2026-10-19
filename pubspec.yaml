@@ -1,7 +1,14 @@
 name: my_shopee_api
 description: A Dart client for the Shopee Affiliate Open API, with signed requests, product offers, affiliate links and structured errors.
-version: 0.1.0
-homepage: https://my-peace-prod-ngmduc2012.web.app/
+version: 0.1.0-beta.1
+homepage: https://github.com/ngmduc2012/my_shopee_api
+repository: https://github.com/ngmduc2012/my_shopee_api
+issue_tracker: https://github.com/ngmduc2012/my_shopee_api/issues
+topics:
+  - shopee
+  - affiliate
+  - api
+  - graphql
 
 environment:
   sdk: '>=3.9.0 <4.0.0'

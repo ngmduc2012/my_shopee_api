@@ -1,5 +1,7 @@
-## 0.1.0
+## 0.1.0-beta.1
 
+- Bản thử nghiệm công khai đầu tiên; chưa xác minh bằng credential Shopee thật/CORS.
+- Repository, issue tracker và CI độc lập cho cộng đồng.
 - Client Dart độc lập, dùng được từ Flutter và Dart server/CLI.
 - Ký SHA256 theo Shopee Affiliate Open API; hỗ trợ GraphQL tùy chỉnh.
 - Product offers, phân trang, tìm theo shop/item và tạo short link.
